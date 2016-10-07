@@ -21,7 +21,8 @@ logger.addHandler(ch)
 
 def write_dockerfile(dockerfile):
     if os.path.isdir("/tmp/scan"):
-        logger.log(level=logging.INFO, msg="/tmp/scan directory already exists")
+        logger.log(
+            level=logging.INFO, msg="/tmp/scan directory already exists")
     elif os.path.isfile("/tmp/scan"):
         os.remove("/tmp/scan")
         os.makedirs("/tmp/scan")

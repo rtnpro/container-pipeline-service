@@ -36,8 +36,8 @@ try:
         DOCKER_HOST, DOCKER_PORT
     ))
     # conn.ping()
-    # logger.log(level=logging.INFO, msg="Connected to remote docker host %s:%s" %
-    #            (CENTOS7, DOCKER_PORT))
+    # logger.log(level=logging.INFO, msg="Connected to remote docker host %s:"
+    #            "%s" % (CENTOS7, DOCKER_PORT))
 except Exception as e:
     logger.log(level=logging.FATAL, msg="Error connecting to Docker daemon.")
 
@@ -55,8 +55,8 @@ def split_logs_to_packages(list_logs):
 
 
 def test_job_data(job_data):
-    msg = ""
-    logs = ""
+    # FIXME: where is it used?
+    # logs = ""
     json_data = None
     logger.log(level=logging.INFO, msg="Received job data from tube")
     logger.log(level=logging.INFO, msg="Job data: %s" % job_data)
@@ -72,7 +72,7 @@ def test_job_data(job_data):
     notify_email = job_data.get('notify_email')
 
     image_full_name = job_data.get('name')
-    #.split(":")[0] + ":" + \
+    # .split(":")[0] + ":" + \
     #    job_data.get("tag")
 
     logger.log(level=logging.INFO, msg="Pulling image %s" % image_full_name)
@@ -163,8 +163,9 @@ def test_job_data(job_data):
             logger.log(level=logging.FATAL,
                        msg="No scan results found at %s" % output_json_file)
             raise
-    else:
-        logs = ""
+    # FIXME: where is it used?
+    # else:
+    #    logs = ""
 
     logger.log(level=logging.INFO,
                msg="Unmounting image's rootfs from %s" % image_rootfs_path)
@@ -173,13 +174,14 @@ def test_job_data(job_data):
 
     os.rmdir(image_rootfs_path)
 
-    logger.log(level=logging.INFO, msg="Removing the image %s" % image_full_name)
+    logger.log(level=logging.INFO,
+               msg="Removing the image %s" % image_full_name)
     conn.remove_image(image=image_full_name, force=True)
 
     logger.log(level=logging.INFO, msg="Finished test...")
 
     # if msg != "" and logs != "":
-    if json_data != None:
+    if json_data is not None:
         d = {
             "image": image_full_name,
             "msg": "Container image requires update",
